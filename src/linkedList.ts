@@ -25,8 +25,8 @@ export class LinkedList<T> {
      * 构造函数，初始化链表为空
      */
     constructor() {
-        this.head = null
-        this.tail = null
+        this.head = null;
+        this.tail = null;
     }
 
     /**
@@ -65,7 +65,7 @@ export class LinkedList<T> {
      */
     public shift() {
         // 如果链表为空，则直接返回 null
-        if (!this.head) return null
+        if (!this.head) return null;
         // 保存当前头节点
         const node = this.head;
         // 保存当前头节点的下一个节点
@@ -74,7 +74,7 @@ export class LinkedList<T> {
         this.head = next;
         // 如果链表不存在节点
         if (this.head === null) {
-            this.tail = this.head
+            this.tail = this.head;
         }
         // 返回被移除的节点
         return node;
@@ -87,11 +87,11 @@ export class LinkedList<T> {
      */
     public moveToTail(node: Node<T>) {
         // 删除节点
-        const delNode = this.remove(node)
+        const delNode = this.remove(node);
         // 如果删除的节点存在
         if (delNode) {
             // 将删除的节点推入尾部，并更新尾部节点
-            this.tail = this.push(delNode)
+            this.tail = this.push(delNode);
         }
     }
 

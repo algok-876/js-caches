@@ -16,18 +16,18 @@ export default class LFUCache<K, T> {
         }
         this.updateFreq(key);
         const val = this.keyToVal.get(key) as T;
-        return val
+        return val;
     }
 
     public has(key: K): boolean {
-        return this.keyToVal.has(key)
+        return this.keyToVal.has(key);
     }
 
     public put(key: K, value: T): void {
         if (this.keyToVal.has(key)) {
             this.keyToVal.set(key, value);
             this.updateFreq(key);
-            return
+            return;
         }
 
         if (this.keyToVal.size >= this.capacity) {
@@ -36,7 +36,7 @@ export default class LFUCache<K, T> {
         this.keyToVal.set(key, value);
         this.keyToFreq.set(key, 1);
         this.putListifAbsent(1).append(key);
-        this.minFreq = 1
+        this.minFreq = 1;
     }
 
     private putListifAbsent(freq: number) {
@@ -47,7 +47,7 @@ export default class LFUCache<K, T> {
     }
 
     private updateFreq(key: K): void {
-        const oldFreq = this.keyToFreq.get(key) as number
+        const oldFreq = this.keyToFreq.get(key) as number;
         const newFreq = oldFreq + 1;
         this.keyToFreq.set(key, newFreq);
         const oldFreqList = this.freqToKeys.get(oldFreq) as LinkedList<K>;
@@ -55,7 +55,7 @@ export default class LFUCache<K, T> {
         const newFreqList = this.putListifAbsent(newFreq);
         newFreqList.append(key);
         if (oldFreqList.isEmpty()) {
-            this.freqToKeys.delete(oldFreq)
+            this.freqToKeys.delete(oldFreq);
             if (this.minFreq === oldFreq) {
                 this.minFreq = newFreq;
             }

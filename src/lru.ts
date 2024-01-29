@@ -5,7 +5,7 @@ export default class LRUCahche<K, T> {
     private capacity: number;
     private list: LinkedList<CacheItem<K, T>>;
     private cache: Map<K, Node<CacheItem<K, T>>> = new Map();
-    private count: number
+    private count: number;
 
     /**
      * 缓存容器构造函数，接收一个整数参数表示缓存容量。
@@ -60,7 +60,7 @@ export default class LRUCahche<K, T> {
         const val = {
             val: value,
             key
-        }
+        };
         // 如果缓存中已经存在该key
         if (this.cache.has(key)) {
             // 获取缓存中对应的节点
@@ -83,10 +83,10 @@ export default class LRUCahche<K, T> {
             this.count--;
         }
         // 在链表尾部添加新的节点val
-        const node = this.list.append(val)
+        const node = this.list.append(val);
         // 将新节点加入缓存中，使用key作为键，node作为值
         this.cache.set(key, node);
         // 计数器加1
-        this.count++
+        this.count++;
     }
 }

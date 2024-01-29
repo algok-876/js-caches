@@ -1,10 +1,10 @@
-import { CacheItem } from "./type"
+import { CacheItem } from "./type";
 export default class FIFOCache<K, T> {
-    private cache: Map<K, CacheItem<K, T>> = new Map()
-    private queue: CacheItem<K, T>[] = []
+    private cache: Map<K, CacheItem<K, T>> = new Map();
+    private queue: CacheItem<K, T>[] = [];
     constructor(private capacity: number) {
         if (capacity < 1) {
-            throw new Error('capacity must be at least 1')
+            throw new Error('capacity must be at least 1');
         }
     }
 
@@ -16,10 +16,10 @@ export default class FIFOCache<K, T> {
      */
     public get(key: K): T | null {
         if (this.cache.has(key)) {
-            const item = this.cache.get(key) as CacheItem<K, T>
-            return item.val
+            const item = this.cache.get(key) as CacheItem<K, T>;
+            return item.val;
         }
-        return null
+        return null;
     }
 
     /**
@@ -31,20 +31,20 @@ export default class FIFOCache<K, T> {
      */
     public put(key: K, val: T): void {
         if (this.cache.has(key)) {
-            const item = this.cache.get(key) as CacheItem<K, T>
-            item.val = val
-            return
+            const item = this.cache.get(key) as CacheItem<K, T>;
+            item.val = val;
+            return;
         }
         if (this.cache.size >= this.capacity) {
-            const item = this.queue.shift() as CacheItem<K, T>
-            this.cache.delete(item.key)
+            const item = this.queue.shift() as CacheItem<K, T>;
+            this.cache.delete(item.key);
         }
         const newCacheItem = {
             key,
             val
-        }
-        this.cache.set(key, newCacheItem)
-        this.queue.push(newCacheItem)
+        };
+        this.cache.set(key, newCacheItem);
+        this.queue.push(newCacheItem);
     }
 
     /**
@@ -54,6 +54,6 @@ export default class FIFOCache<K, T> {
      * @returns 存在返回 true，不存在返回 false
      */
     public has(key: K): boolean {
-        return this.cache.has(key)
+        return this.cache.has(key);
     }
 }
