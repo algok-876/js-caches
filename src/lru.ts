@@ -1,9 +1,6 @@
 import { LinkedList } from "./linkedList";
 import { Node } from "./linkedList";
-type CacheItem<K, T> = {
-    val: T,
-    key: K
-}
+import { CacheItem } from "./type";
 export default class LRUCahche<K, T> {
     private capacity: number;
     private list: LinkedList<CacheItem<K, T>>;

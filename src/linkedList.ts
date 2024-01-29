@@ -15,7 +15,9 @@ export class Node<T> {
         this.prev = prev || null;
     }
 }
-
+function isNode(node: any): node is Node<any> {
+    return node && node.constructor === Node;
+}
 export class LinkedList<T> {
     public head: Node<T> | null;
     public tail: Node<T> | null;
@@ -84,30 +86,69 @@ export class LinkedList<T> {
      * @param node 要移动的节点
      */
     public moveToTail(node: Node<T>) {
-        // 如果节点已经是尾节点，则直接返回
-        if (node === this.tail) return;
-        // 如果节点是头节点
-        if (node === this.head) {
-            // 将头节点移到尾部
-            const node = this.shift();
-            // 如果移除的节点存在，则将其添加到尾部
-            if (node) this.push(node);
-            return;
+        // 删除节点
+        const delNode = this.remove(node)
+        // 如果删除的节点存在
+        if (delNode) {
+            // 将删除的节点推入尾部，并更新尾部节点
+            this.tail = this.push(delNode)
         }
-        // 获取节点的前一个节点和后一个节点
-        const prev = node.prev;
-        const next = node.next;
-        // 如果存在前一个节点
-        if (prev) {
-            // 将前一个节点的后继指向后一个节点
-            prev.next = next;
+    }
+
+    public isEmpty() {
+        return this.head === null;
+    }
+
+    public remove(target: T | Node<T>) {
+        // 判断目标是否为节点
+        const isFind = !isNode(target);
+        // 当前节点
+        let current: Node<T> | null = null;
+        // 如果目标不是节点
+        if (isFind) {
+            // 当前节点指向头节点
+            current = this.head;
+            // 遍历链表，查找目标值
+            while (current && current.value !== target) {
+                current = current.next;
+            }
+            // 如果未找到目标值，直接返回
+            if (current === null) return;
+        } else {
+            // 如果目标就是节点本身，则直接将当前节点指向目标节点
+            current = target;
         }
-        // 如果存在后一个节点
-        if (next) {
-            // 将后一个节点的前驱指向前一个节点
-            next.prev = prev;
+
+        // 如果当前节点是头节点
+        if (current === this.head) {
+            // 将头节点指向当前节点的下一个节点
+            this.head = current?.next;
+            this.head && (this.head.prev = null);
+            // 如果头节点为空，则将尾节点也设为空
+            if (this.head === null) this.tail = this.head;
+            // 返回被删除的节点
+            return current;
         }
-        // 将节点添加到尾部并更新尾部指针
-        this.tail = this.push(node)
+        // 如果当前节点是尾节点
+        if (current === this.tail) {
+            // 将尾节点指向当前节点的上一个节点
+            this.tail = current.prev;
+            // 如果尾节点的下一个节点存在，则将其设为null，表示尾节点不再有下一个节点
+            this.tail && (this.tail.next = null);
+            // 返回被删除的节点
+            return current;
+        }
+        // 获取当前节点的上一个节点和下一个节点
+        const prev = current?.prev;
+        const next = current?.next;
+        // 如果上一个节点存在，则将其next指向下一个节点
+        if (prev) prev.next = next;
+        // 如果下一个节点存在，则将其prev指向上一个节点
+        if (next) next.prev = prev;
+        // 将当前节点的next和prev设为null，表示当前节点不再有下一个和上一个节点
+        current.next = null;
+        current.prev = null;
+        // 返回被删除的节点
+        return current;
     }
 }

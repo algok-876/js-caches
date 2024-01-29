@@ -1,3 +1,3 @@
 import LRUCahche from "./lru";
-
-export { LRUCahche };
+import FIFOCache from "./fifo";
+export { LRUCahche, FIFOCache };
