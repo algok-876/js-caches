@@ -31,7 +31,6 @@ yarn-debug.log*
 yarn-error.log*
 selenium-debug.log
 dist
-
 # 本地环境文件
 .env.local
 .env.*.local

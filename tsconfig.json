@@ -9,6 +9,7 @@
       "ScriptHost"
     ],
     "declaration": true,
+    "declarationDir": "types",
     "downlevelIteration": true,
     "rootDirs": [
       "src",

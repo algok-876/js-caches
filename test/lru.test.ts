@@ -14,30 +14,30 @@ describe('LRU cache', () => {
         for (let i = 0; i < 10; i++) {
             expect(cache.get(i)).toBe(i);
         }
-    })
+    });
 
     it("Correctly eliminate the least recently used elements", () => {
         const cache = new LRUCahche<number, number>(3);
-        cache.put(1, 9)
-        cache.put(2, 8)
-        cache.put(3, 7)
-        cache.put(4, 6)
-        expect(cache.has(1)).toBeFalsy()
-        expect(cache.get(1)).toBeNull()
-        cache.get(2)
-        cache.put(5, 10)
-        expect(cache.has(3)).toBeFalsy()
-        expect(cache.get(3)).toBeNull()
-    })
+        cache.put(1, 9);
+        cache.put(2, 8);
+        cache.put(3, 7);
+        cache.put(4, 6);
+        expect(cache.has(1)).toBeFalsy();
+        expect(cache.get(1)).toBeNull();
+        cache.get(2);
+        cache.put(5, 10);
+        expect(cache.has(3)).toBeFalsy();
+        expect(cache.get(3)).toBeNull();
+    });
 
     it("Update existing cache", () => {
         const cache = new LRUCahche<number, number>(3);
-        cache.put(1, 9)
-        cache.put(2, 8)
-        cache.put(3, 7)
-        cache.put(1, 100)
-        expect(cache.get(1)).toBe(100)
-        cache.put(6, 77)
-        expect(cache.get(2)).toBeNull()
-    })
-})
+        cache.put(1, 9);
+        cache.put(2, 8);
+        cache.put(3, 7);
+        cache.put(1, 100);
+        expect(cache.get(1)).toBe(100);
+        cache.put(6, 77);
+        expect(cache.get(2)).toBeNull();
+    });
+});

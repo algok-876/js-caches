@@ -1,9 +1,9 @@
-import {removeScope,getBaseNameOfHumpFormat,getDependencieNames,toStringTag} from "package-tls";
+import { removeScope, getBaseNameOfHumpFormat, getDependencieNames, toStringTag } from "package-tls";
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
 import { terser } from "rollup-plugin-terser";
-import {dirname} from "path"
+import { dirname } from "path";
 import pkg from './package.json';
 
 import tsconfig from "./tsconfig.json";
@@ -27,7 +27,7 @@ import babel from '@rollup/plugin-babel';
 const input = 'src/index.ts';   // 输入（入口）文件
 const outputDir = dirname(pkg.main || "dist/*");    //输出目录
 const pkgName = getBaseNameOfHumpFormat(pkg.name);  //驼峰格式的 pkg.name
-const extensions = ['.tsx', '.ts','.jsx','.mjs', '.js', '.json','.node'];  // 默认查找的文件扩展名
+const extensions = ['.tsx', '.ts', '.jsx', '.mjs', '.js', '.json', '.node'];  // 默认查找的文件扩展名
 
 
 // rollup 中共用的 output 选项
@@ -35,7 +35,7 @@ const shareOutput = {
 	// 要插入到生成文件顶部的字段串；
 	banner: toStringTag(2)`
 /*
-${pkg.name}	${pkg.version && "v"+ pkg.version}
+${pkg.name}	${pkg.version && "v" + pkg.version}
 author: ${pkg.author}
 license: ${pkg.license}
 homepage: ${pkg.homepage}
@@ -47,15 +47,10 @@ description: ${pkg.description}
 	// footer:"",
 
 	// 输出文件的存放目录；只用于会生成多个 chunks 的时候
-	dir:"./",
+	dir: "./",
 	// 生成 chunks 名字的格式
-	entryFileNames:`${outputDir}/${removeScope(pkg.name)}.[format].js`
+	entryFileNames: `${outputDir}/${removeScope(pkg.name)}.[format].js`
 };
-
-
-
-
-
 
 // 预设
 const presets = [
@@ -64,12 +59,11 @@ const presets = [
 
 // 插件
 
-
 /*
 @babel/plugin-transform-runtime 能够重复使用 Babel 的注入帮助器 Helper 代码，以节省代码大小。
 注意：如果 rollup 的 format 设置为 "es" ， 则应将 useESModules 设置为 true，否则，应将 useESModules 设置 false ；
 */
-const pluginTransformRuntime = ['@babel/plugin-transform-runtime', {useESModules: false, corejs: { version: 3 }}];
+const pluginTransformRuntime = ['@babel/plugin-transform-runtime', { useESModules: false, corejs: { version: 3 } }];
 
 const plugins = [
 	// Stage 2
@@ -82,23 +76,20 @@ const plugins = [
 	// Stage 3
 	"@babel/plugin-syntax-dynamic-import",
 	"@babel/plugin-syntax-import-meta",
-	["@babel/plugin-proposal-class-properties", { "loose": true }],
+	["@babel/plugin-proposal-class-properties", { "loose": false }],
 	"@babel/plugin-proposal-json-strings",
 
 	pluginTransformRuntime
 ];
 
-
-
 // babel的共用配置
 const babelConf = {
-	babelHelpers:"runtime",    //指定插入 babel 的 帮助器 Helper 的方式
+	babelHelpers: "runtime",    //指定插入 babel 的 帮助器 Helper 的方式
 	exclude: ['node_modules/**'],  // 指定应被 babel 忽略的文件的匹配模式；
 	extensions: extensions,  // 应该被 babel 转换的所有文件的扩展名数组；这些扩展名的文件会被 babel 处理，其它文件刚会被 babel 忽略；默认值：['.js', '.jsx', '.es6', '.es', '.mjs']
 	presets: presets,
 	plugins: plugins
 };
-
 
 // 共用的 rollup 配置
 const shareConf = {
@@ -113,26 +104,24 @@ const shareConf = {
 			- 构建专门用于浏览器环境的包时，建义设置为 `browser:true`；
 			- 构建专门用于node环境的包时，建义设置为 `browser:false` 或者 删除此选项；
 			*/
-			browser:true,
+			browser: true,
 			/*
 			extensions   类型: Array[...String]    默认值: ['.mjs', '.js', '.json', '.node']
 			扩展文件名
 			*/
-			extensions:extensions
+			extensions: extensions
 		}),
 		json(), //将 json 文件转为 ES6 模块
 		commonjs(), // 将依赖的模块从 CommonJS 模块规范转换成 ES2015 模块规范
 		typescript({
 			// 如果 tsconfig 中的 declarationDir 没有定义，则优先使用 package.json 中的 types 或 typings 定义的目录， 默认值：outputDir
-			declarationDir: tsconfig.declarationDir || dirname(pkg.types || pkg.typings || (outputDir+"/*")),
+			declarationDir: tsconfig.declarationDir || dirname(pkg.types || pkg.typings || (outputDir + "/*")),
 			// 用来给 输出目录 outDir 提供源文件目录结构的，以便生成的文件中的导入导出能够正确地访问；
 			rootDir: dirname(input),
 		}),  // 将 TypeScript 转换为 JavaScript
 		babel(babelConf)
 	]
 };
-
-
 
 // 导出的 rollup 配置
 export default [
@@ -144,18 +133,18 @@ export default [
 	*/
 	{
 		...shareConf,
-		output: {...shareOutput, format: 'es' },  // ES module
+		output: { ...shareOutput, format: 'es' },  // ES module
 		plugins: [
-			...shareConf.plugins.slice(0,shareConf.plugins.length - 1),
+			...shareConf.plugins.slice(0, shareConf.plugins.length - 1),
 			babel({
 				...babelConf,
 				plugins: [
-					...plugins.slice(0,plugins.length - 1),
+					...plugins.slice(0, plugins.length - 1),
 					/*
 					@babel/plugin-transform-runtime 能够重复使用 Babel 的注入帮助器 Helper 代码，以节省代码大小。
 					注意：如果 rollup 的 format 设置为 "es" ， 则应将 useESModules 设置为 true，否则，应将 useESModules 设置 false ；
 					*/
-					[pluginTransformRuntime[0],{...pluginTransformRuntime[1],useESModules: true }]
+					[pluginTransformRuntime[0], { ...pluginTransformRuntime[1], useESModules: true }]
 				]
 			})
 		]
@@ -164,8 +153,8 @@ export default [
 	{
 		...shareConf,
 		output: [
-			{...shareOutput, format: 'cjs' }, // CommonJS
-			{...shareOutput, format: 'amd' }, // amd
+			{ ...shareOutput, format: 'cjs' }, // CommonJS
+			{ ...shareOutput, format: 'amd' }, // amd
 			/*
 			umd：兼容各种引入方式
 			可以以 AMD 或 CommonJS 模块的方式引入，也可以用 <script> 标签直接引入;
@@ -189,7 +178,7 @@ export default [
 	*/
 	{
 		...shareConf,
-		external:getDependencieNames(pkg,"peerDependencies"),   //只移除 peerDependencies 中的依赖
+		external: getDependencieNames(pkg, "peerDependencies"),   //只移除 peerDependencies 中的依赖
 		output: {
 			...shareOutput,
 			format: 'iife',

@@ -1,5 +1,4 @@
 # npm 上传包时的忽略配置文件
-# https://github.com/GuoBinyong/library-webpack-template
 
 # 构建配置相关
 tsconfig.json
@@ -25,3 +24,7 @@ rollup.config.js
 
 # 代码目录
 test/
+src/
+coverage/
+jest.config.js
+pnpm-lock.yaml
