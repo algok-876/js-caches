@@ -1,6 +1,6 @@
 # js-caches 
-![GitHub](https://img.shields.io/github/license/algok-876/js-caches)
-![Static Badge](https://img.shields.io/badge/npm-v1.0.0-blue)
+[![GitHub](https://img.shields.io/github/license/algok-876/js-caches)](https://github.com/algok-876/js-caches/blob/master/LICENSE)
+[![Static Badge](https://img.shields.io/badge/npm-v1.0.0-blue)](https://www.npmjs.com/package/js-caches)
 [![Coverage Status](https://coveralls.io/repos/github/algok-876/js-caches/badge.svg)](https://coveralls.io/github/algok-876/js-caches)
 
 
@@ -10,7 +10,7 @@ js-caches 缓存库提供了三种高效的缓存策略：最近最少使用（L
 
 ### 通过NPM安装
 ```bash
-$ npm install your-cache-library-name
+$ npm install js-caches
 ```
 
 ## 快速开始
@@ -70,4 +70,4 @@ cache.get(3)) // null
 欢迎贡献！如果你有好的想法或者发现了bug，请通过issue或者pull request与我联系
 
 ## 许可证
-这个项目采用 MIT许可证
+这个项目采用 [MIT许可证](https://github.com/algok-876/js-caches/blob/master/LICENSE)

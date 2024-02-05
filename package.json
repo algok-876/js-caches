@@ -6,10 +6,10 @@
   "module": "dist/js-caches.es.js",
   "types": "types/index.d.ts",
   "sideEffects": false,
-  "homepage": "https://github.com/GuoBinyong/library-rollup-template#readme",
+  "homepage": "https://github.com/algok-876/js-caches#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/GuoBinyong/library-rollup-template"
+    "url": "git+https://github.com/algok-876/js-caches.git"
   },
   "keywords": [
     "caches",
@@ -32,9 +32,7 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "test": "jest",
-    "coveralls": "jest --coverage --coverageReporters=text-lcov | coveralls",
-    "pretest": "npm run build",
+    "test": "jest --coverage",
     "lint": "eslint --fix src/**/*.ts"
   },
   "devDependencies": {
